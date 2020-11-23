@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysqlASW
+    restart: always
+    ports:
+      - '3307:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root 
+      - MYSQL_DATABASE=phpdb
+  
+  apache:
+    image: 'php:7.2-apache'
+    container_name: php
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    volumes:
+      - ./www:/var/www/html
